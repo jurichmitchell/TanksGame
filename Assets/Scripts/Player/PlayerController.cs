@@ -14,7 +14,8 @@ public class PlayerController : MonoBehaviour
 	private Rigidbody rb;
 
 	// Member variables
-	private List<GameObject> currentCollisions = new List<GameObject>();
+	private List<GameObject> currentCollisions = new List<GameObject>();	// Stores a list of all objects this is currently colliding with
+
 	private float rotateSpeed = 50.0f;
 	private float moveSpeed = 1.0f;
 	private bool isRagdoll = false;
@@ -27,13 +28,12 @@ public class PlayerController : MonoBehaviour
 
     // Update is called once per frame
     void Update() {
-		//MovePlayer();
 		FireProjectile();
     }
 
 	// For physics calculations
 	void FixedUpdate() {
-		MovePlayerPhysics();
+		MovePlayer();
 	}
 
 	private void OnCollisionEnter(Collision collision) {
@@ -43,21 +43,8 @@ public class PlayerController : MonoBehaviour
 	private void OnCollisionExit(Collision collision) {
 		currentCollisions.Remove(collision.gameObject);
 	}
-	/*
+	
 	private void MovePlayer() {
-		float horComp = Input.GetAxis("Horizontal");
-		float vertComp = Input.GetAxis("Vertical");
-		Vector3 currPos = this.gameObject.transform.position;
-		Vector3 forwardMovement = gameObject.transform.forward * (vertComp * moveSpeed);
-
-		// Update player's position
-		this.gameObject.transform.position = currPos + (forwardMovement * Time.deltaTime);
-		CollisionDetectPosition(forwardMovement * Time.deltaTime);
-		// Update player's rotation
-		this.gameObject.transform.Rotate(new Vector3(0.0f, horComp * rotateSpeed * Time.deltaTime));
-	}
-	*/
-	private void MovePlayerPhysics() {
 		float horComp = Input.GetAxis("Horizontal");
 		float vertComp = Input.GetAxis("Vertical");
 		Vector3 currPos = this.gameObject.transform.position;
@@ -68,6 +55,7 @@ public class PlayerController : MonoBehaviour
 		// Update player's rotation
 		rb.MoveRotation(rb.rotation * Quaternion.Euler(0.0f, horComp * rotateSpeed * Time.fixedDeltaTime, 0.0f));
 
+		// If not ragdolling, then only allow the y coordinate to be updated
 		if (!isRagdoll) {
 			rb.velocity = new Vector3(0.0f, rb.velocity.y, 0.0f);
 		}
@@ -87,8 +75,4 @@ public class PlayerController : MonoBehaviour
 		}
 	}
 
-	// Check for collision after updating player's position
-	private void CollisionDetectPosition(Vector3 lastMovement) {
-
-	}
 }

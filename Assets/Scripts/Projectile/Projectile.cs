@@ -33,10 +33,11 @@ public class Projectile : MonoBehaviour
 
     // Update is called once per frame
     void Update() {
-		//MoveProjectile();
+		
     }
 
 	private void FixedUpdate() {
+		// Store the old velocity for later use
 		oldVelocity = rb.velocity;
 	}
 
@@ -58,12 +59,4 @@ public class Projectile : MonoBehaviour
 		}
 	}
 
-	/*
-	void MoveProjectile() {
-		Vector3 currPos = this.gameObject.transform.position;
-		Vector3 forwardMovement = direction * moveSpeed;
-		
-		this.gameObject.transform.position = currPos + (forwardMovement * Time.deltaTime);
-	}
-	*/
 }
